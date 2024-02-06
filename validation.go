@@ -15,9 +15,11 @@ import (
 )
 
 // ....validasi untuk inputan yang wajib diisi....
-func ValidasiRequired(input string) error {
-	if strings.TrimSpace(input) == "" {
-		return errors.New("error,input is mandatory")
+func ValidasiRequired(inputs ...string) error {
+	for _, input := range inputs {
+		if strings.TrimSpace(input) == "" {
+			return errors.New("error, input is mandatory")
+		}
 	}
 	return nil
 }
