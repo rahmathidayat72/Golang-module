@@ -18,7 +18,7 @@ import (
 func ValidasiRequired(inputs ...string) error {
 	for _, input := range inputs {
 		if strings.TrimSpace(input) == "" {
-			return errors.New("error, input is mandatory")
+			return errors.New("error, tidak boleh ada kolom yang kosong")
 		}
 	}
 	return nil

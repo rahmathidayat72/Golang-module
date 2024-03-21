@@ -2,7 +2,10 @@ module github.com/rahmathidayat72/golang-module
 
 go 1.21.3
 
-require gorm.io/gorm v1.25.6
+require (
+	github.com/begmaroman/reading-time v0.0.0-20200518075747-77e4aae57578
+	gorm.io/gorm v1.25.6
+)
 
 require (
 	github.com/labstack/gommon v0.4.2 // indirect
