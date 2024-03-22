@@ -58,17 +58,19 @@ func HashSHA512(data []byte) (string, error) {
 // 	fmt.Printf("Hash SHA-512: %s\n", hashedResult512)
 // }
 
-
 // HashPassword meng-encrypt password menggunakan bcrypt
 func HashPassword(password string) (string, error) {
-    hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.MinCost)
-    if err != nil {
-        return "", err
-    }
-    return string(hashedPassword), nil
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.MinCost)
+	if err != nil {
+		return "", err
+	}
+	return string(hashedPassword), nil
 }
 
-// ComparePassword membandingkan password dengan hash password yang disimpan
+// compare password
 func ComparePassword(hashPassword string, password string) error {
-    return bcrypt.CompareHashAndPassword([]byte(hashPassword), []byte(password))
+	pw := []byte(password)
+	hw := []byte(hashPassword)
+	err := bcrypt.CompareHashAndPassword(hw, pw)
+	return err
 }
