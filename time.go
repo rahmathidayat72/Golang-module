@@ -1,4 +1,4 @@
-package helpers
+package golangmodule
 
 import (
 	"time"
