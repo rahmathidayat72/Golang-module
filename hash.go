@@ -4,6 +4,8 @@ import (
 	"crypto/sha256"
 	"crypto/sha512"
 	"encoding/hex"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 // ....Fungsi untuk menghasilkan hash SHA-256 dari data....
@@ -55,3 +57,11 @@ func HashSHA512(data []byte) (string, error) {
 // 	fmt.Printf("Hash SHA-384: %s\n", hashedResult384)
 // 	fmt.Printf("Hash SHA-512: %s\n", hashedResult512)
 // }
+
+func CheckPassword(password, hash string) bool {
+	passwordBytes := []byte(password)
+	hashBytes := []byte(hash)
+
+	err := bcrypt.CompareHashAndPassword(hashBytes, passwordBytes)
+	return err == nil
+}
