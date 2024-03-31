@@ -15,10 +15,19 @@ import (
 )
 
 // ....validasi untuk inputan yang wajib diisi....
-func ValidasiRequired(inputs ...string) error {
+func ValidasiRequired(inputs ...interface{}) error {
 	for _, input := range inputs {
-		if strings.TrimSpace(input) == "" {
-			return errors.New("error, tidak boleh ada kolom yang kosong")
+		switch v := input.(type) {
+		case string:
+			if strings.TrimSpace(v) == "" {
+				return errors.New("error, tidak boleh ada kolom yang kosong")
+			}
+		case int:
+			if v == 0 {
+				return errors.New("error, tidak boleh ada kolom yang kosong")
+			}
+		default:
+			return errors.New("error, tipe data tidak didukung")
 		}
 	}
 	return nil
