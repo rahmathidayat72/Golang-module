@@ -4,7 +4,8 @@ go 1.21.3
 
 require (
 	github.com/begmaroman/reading-time v0.0.0-20200518075747-77e4aae57578
-	github.com/golang-jwt/jwt/v5 v5.2.1
+	github.com/golang-jwt/jwt/v4 v4.5.0
+	github.com/sirupsen/logrus v1.9.3
 	golang.org/x/crypto v0.17.0
 	gorm.io/gorm v1.25.6
 )
