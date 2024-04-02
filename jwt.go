@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
@@ -18,28 +19,6 @@ type MetaToken struct {
 type AccessToken struct {
 	Claims MetaToken
 }
-
-// func Sign(Data map[string]any, expired int) (string, error) {
-// 	duration, _ := strconv.Atoi(os.Getenv("JWT_TIME_DURATION"))
-// 	if expired > 0 {
-// 		duration = expired
-// 	}
-
-// 	drt := time.Minute * time.Duration(duration)
-// 	claims := jwt.MapClaims{}
-// 	claims["exp"] = time.Now().Add(drt).Unix()
-
-// 	for i, v := range Data {
-// 		claims[i] = v
-// 	}
-// 	to := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-// 	accessToken, err := to.SignedString([]byte(os.Getenv("JWT_SECRET")))
-// 	if err != nil {
-// 		return "", err
-// 	}
-
-// 	return accessToken, nil
-// }
 
 func Sign(data map[string]interface{}) (string, time.Time, error) {
 	// Menetapkan waktu kedaluwarsa token secara hardcode
@@ -103,4 +82,13 @@ func DecodeToken(accessToken *jwt.Token) AccessToken {
 		return token
 	}
 	return token
+}
+
+// Fungsi untuk mengambil token dari header Authorization
+func GetTokenFromAuthorizationHeader(authorizationHeader string) string {
+	parts := strings.Split(authorizationHeader, " ")
+	if len(parts) != 2 || strings.ToLower(parts[0]) != "bearer" {
+		return ""
+	}
+	return parts[1]
 }
