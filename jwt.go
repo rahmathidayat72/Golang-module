@@ -52,6 +52,12 @@ func VerifyTokenHeader(requestToken string) (MetaToken, error) {
 		log.Println(err)
 		return MetaToken{}, err
 	}
+
+	if !token.Valid {
+		log.Println("Token is not valid")
+		return MetaToken{}, jwt.ErrSignatureInvalid
+	}
+
 	claimToken := DecodeToken(token)
 	return claimToken.Claims, nil
 }
@@ -67,7 +73,11 @@ func VerifyToken(accessToken string) (*jwt.Token, error) {
 		logrus.Error(err.Error())
 		return nil, err
 	}
-
+	if !token.Valid {
+		logrus.Error("Token is not valid")
+		return nil, jwt.ErrSignatureInvalid
+	}
+	
 	return token, nil
 }
 
