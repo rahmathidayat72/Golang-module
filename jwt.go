@@ -3,11 +3,13 @@ package golangmodule
 import (
 	"encoding/json"
 	"log"
+	"net/http"
 	"os"
 	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
+	golangmodule "github.com/rahmathidayat72/golang-module"
 	"github.com/sirupsen/logrus"
 )
 
@@ -49,13 +51,7 @@ func VerifyTokenHeader(requestToken string) (MetaToken, error) {
 		return []byte(os.Getenv("JWT_SECRET")), nil
 	})
 	if err != nil {
-		log.Println(err)
-		return MetaToken{}, err
-	}
-
-	if !token.Valid {
-		log.Println("Token is not valid")
-		return MetaToken{}, jwt.ErrSignatureInvalid
+		return MetaToken{}, golangmodule.BuildResponse(http.StatusUnauthorized, "Token tidak valid")
 	}
 
 	claimToken := DecodeToken(token)
@@ -70,14 +66,9 @@ func VerifyToken(accessToken string) (*jwt.Token, error) {
 	})
 
 	if err != nil {
-		logrus.Error(err.Error())
-		return nil, err
+		return nil, golangmodule.BuildResponse(http.StatusUnauthorized, "Token tidak valid")
 	}
-	if !token.Valid {
-		logrus.Error("Token is not valid")
-		return nil, jwt.ErrSignatureInvalid
-	}
-	
+		
 	return token, nil
 }
 
